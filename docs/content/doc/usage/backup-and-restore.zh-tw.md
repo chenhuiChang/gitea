@@ -42,4 +42,19 @@ Gitea 目前支援 `dump` 指令，用來將資料備份成 zip 檔案，後續�
 
 ## 還原指令 (`restore`)
 
-持續更新中: 此文件尚未完成.
+目前gitea還沒有還原的指令。但可藉由手動的方式，把檔案搬到正確的位置，以及還原資料庫指令，來達成gitea的搬遷。
+
+範例：
+
+```
+apt-get install gitea
+unzip gitea-dump-1482906742.zip
+cd gitea-dump-1482906742
+mv custom/conf/app.ini /etc/gitea/conf/app.ini
+unzip gitea-repo.zip
+mv gitea-repo/* /var/lib/gitea/repositories/
+chown -R gitea:gitea /etc/gitea/conf/app.ini /var/lib/gitea/repositories/
+mysql -u$USER -p$PASS $DATABASE <gitea-db.sql
+# or  sqlite3 $DATABASE_PATH <gitea-db.sql
+service gitea restart
+```
